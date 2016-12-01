@@ -1,0 +1,22 @@
+[
+  {
+    "file": "\/home\/carbonat\/Documents\/lab_files\/Wap.txt",
+    "name": "e",
+    "range": "0..1"
+  },
+  {
+    "file": "\/home\/carbonat\/Documents\/lab_files\/file_T",
+    "name": "t",
+    "range": "0..2"
+  },
+  {
+    "file": "\/home\/carbonat\/Documents\/lab_files\/file_W",
+    "name": "w",
+    "range": "3..5"
+  },
+  {
+    "file": "\/home\/carbonat\/Documents\/lab_files\/file_C",
+    "name": "c",
+    "range": "7..9"
+  }
+]

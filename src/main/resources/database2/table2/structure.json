@@ -1,0 +1,11 @@
+[
+  {
+    "name": "CHARACTER"
+  },
+  {
+    "file": "TEXT_FILE"
+  },
+  {
+    "range": "INTEGER_INVL"
+  }
+]

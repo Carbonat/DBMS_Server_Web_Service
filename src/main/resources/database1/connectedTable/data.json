@@ -1,0 +1,23 @@
+[
+  {
+    "First1": "1",
+    "Second": 5,
+    "Third": "1..10",
+    "Second1": 5,
+    "First": "1"
+  },
+  {
+    "First1": "a",
+    "Second": 4,
+    "Third": "0..5",
+    "Second1": 4,
+    "First": "a"
+  },
+  {
+    "First1": "c",
+    "Second": 5,
+    "Third": "-1..100",
+    "Second1": 5,
+    "First": "c"
+  }
+]

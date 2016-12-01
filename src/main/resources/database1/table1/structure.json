@@ -1,0 +1,11 @@
+[
+  {
+    "First": "CHARACTER"
+  },
+  {
+    "Second": "INTEGER"
+  },
+  {
+    "Third": "INTEGER_INVL"
+  }
+]
