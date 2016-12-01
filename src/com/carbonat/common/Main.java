@@ -200,7 +200,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String address = "http://0.0.0.0:2000/";
+        int port = 7777;
+
+        if (args.length > 0) {
+            port = Integer.parseInt(args[0]);
+        }
+
+        String address = "http://0.0.0.0:" + port + "/";
         Endpoint.publish(address + "user", new UserImpl("", ""));
         Endpoint.publish(address + "databases", new DatabasesImpl());
         Endpoint.publish(address + "database", new DatabaseImpl(""));
