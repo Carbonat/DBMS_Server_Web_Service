@@ -7,8 +7,12 @@
     <groupId>DBMS</groupId>
     <artifactId>Server_web_service</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    
+    <packaging>jar</packaging>
+    <name>dblab</name>
+    
     <build>
+        <finalName>dblab</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
