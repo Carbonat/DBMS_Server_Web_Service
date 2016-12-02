@@ -3,12 +3,18 @@ package com.carbonat.database;
 import com.carbonat.common.ErrorMsg;
 import com.carbonat.common.ExceptionType;
 import com.carbonat.common.Main;
+import com.carbonat.table.DataType;
+import com.carbonat.table.Table;
+import com.carbonat.table.TableImpl;
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 
 import javax.jws.WebService;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @WebService(endpointInterface = "com.carbonat.database.Database")
 public class DatabaseImpl implements Database {
@@ -134,6 +140,8 @@ public class DatabaseImpl implements Database {
         tables = new String[size];
         for (int i = 0; i < size; ++i) {
             tables[i] = (String) tablesList.get(i);
+//                if (!tables.get(i).readData())
+//                    return false;
         }
         return true;
     }
