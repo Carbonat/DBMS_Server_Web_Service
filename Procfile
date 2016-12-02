@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/dblab.jar com.carbonat.common.Main $PORT
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.carbonat.common.Main $PORT
