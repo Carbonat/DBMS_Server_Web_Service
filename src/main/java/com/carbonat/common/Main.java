@@ -206,9 +206,8 @@ public class Main {
         if (args.length > 0) {
             port = Integer.parseInt(args[0]);
         }
-        String address2 = "http://localhost:" + port + "/";
-//        String address = "http://0.0.0.0:" + port + "/";
-        Endpoint.publish(address2 + "dbms", new DBMSImpl());
+        String address = "http://0.0.0.0:" + port + "/";
+        Endpoint.publish(address + "dbms", new DBMSImpl());
         System.out.println("Server is ready");
     }
 }
