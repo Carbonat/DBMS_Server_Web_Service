@@ -1,25 +1,23 @@
 package com.carbonat.common;
 
-import javax.jws.WebMethod;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-@WebService
-@SOAPBinding(style = SOAPBinding.Style.RPC)
-public interface FileContent {
-    @WebMethod
-    String getText(String path);
+public class FileContent extends DBMSUnit {
 
-    @WebMethod
-    ExceptionType getExceptionType();
+    public String getText(String path) {
+        String text = "";
+        try {
+            text = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
+        } catch (IOException ex) {
+            errorMsg = new ErrorMsg(ExceptionType.InputOutput, ex.getMessage());
+        } catch (Exception ex) {
+            errorMsg = new ErrorMsg(ExceptionType.InputOutput, ex.getMessage());
+        }
+        return text;
+    }
 
-    @WebMethod
-    String getError();
-
-    @WebMethod
-    boolean isErrorExists();
-
-    @WebMethod
-    void setErrorMsgNull();
 }

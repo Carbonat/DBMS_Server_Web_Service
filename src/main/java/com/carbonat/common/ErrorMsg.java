@@ -1,8 +1,5 @@
 package com.carbonat.common;
 
-/**
- * Created by carb on 20.11.2016.
- */
 public class ErrorMsg {
     private String msg;
     private ExceptionType exceptionType;

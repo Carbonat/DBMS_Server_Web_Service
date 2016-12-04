@@ -1,50 +1,114 @@
 package com.carbonat.user;
 
+import com.carbonat.common.DBMSUnit;
+import com.carbonat.common.ErrorMsg;
 import com.carbonat.common.ExceptionType;
+import com.carbonat.common.Main;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
-import javax.jws.WebMethod;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
 
-@WebService
-@SOAPBinding(style = SOAPBinding.Style.RPC)
-public interface User {
-    @WebMethod
-    String getUsername();
+public class User extends DBMSUnit {
+    private String username;
+    private String password;
+    private UserType userType;
 
-    @WebMethod
-    void setUsername(String username);
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
-    @WebMethod
-    String getPassword();
+    public User(String username, String password, UserType userType) {
+        this.username = username;
+        this.password = password;
+        this.userType = userType;
+    }
 
-    @WebMethod
-    void setPassword(String password);
+    public String getUsername() {
+        return username;
+    }
 
-    @WebMethod
-    UserType getUserType();
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    @WebMethod
-    void setUserType(UserType userType);
+    public String getPassword() {
+        return password;
+    }
 
-    @WebMethod
-    UserType userExists();
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-    @WebMethod
-    boolean usernameIsUnique();
+    public UserType getUserType() {
+        return userType;
+    }
 
-    @WebMethod
-    boolean save();
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
 
-    @WebMethod
-    ExceptionType getExceptionType();
+    public UserType userExists() {
+//        System.out.println("inside UserExists");
+        UserType userType = UserType.UNKNOWN_USER;
+        String path = Main.getPath(Main.USERS_FILE);
+        JSONArray array = (JSONArray) Main.readParseJson(path);
+        if (array != null) {
+            JSONObject obj;
+            String username, password, userT;
 
-    @WebMethod
-    String getError();
+            boolean userFound = false;
+            for (int i = 0; i < array.size() && !userFound; ++i) {
+                obj = (JSONObject) array.get(i);
+                username = (String) obj.get("username");
+                password = (String) obj.get("password");
+                if (this.getUsername().equals(username) &&
+                        this.getPassword().equals(password)) {
+                    userFound = true;
+                    userT = (String) obj.get("UserType");
+                    userType = UserType.valueOf(userT);
+                }
+            }
+        }
+        return userType;
+    }
 
-    @WebMethod
-    boolean isErrorExists();
+    public boolean usernameIsUnique() {
+        String path = Main.getPath(Main.USERS_FILE);
+        JSONArray array = (JSONArray) Main.readParseJson(path);
+        if (array != null) {
+            JSONObject obj;
+            String username;
 
-    @WebMethod
-    void setErrorMsgNull();
+            for (int i = 0; i < array.size(); ++i) {
+                obj = (JSONObject) array.get(i);
+                username = (String) obj.get("username");
+                if (this.getUsername().equals(username)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean save() {
+        if (usernameIsUnique()) {
+            errorMsg = new ErrorMsg(ExceptionType.UserAlreadyExists, "");
+            return false;
+        }
+
+        String path = Main.getPath(Main.USERS_FILE);
+        JSONArray array = (JSONArray) Main.readParseJson(path);
+
+        JSONObject object = new JSONObject();
+        object.put("username", getUsername());
+        object.put("password", getPassword());
+        object.put("UserType", getUserType().toString());
+
+        array.add(object);
+        String jsonString = array.toJSONString();
+
+        return Main.updateJson(jsonString, path);
+    }
 }

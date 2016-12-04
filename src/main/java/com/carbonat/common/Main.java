@@ -1,9 +1,10 @@
 package com.carbonat.common;
 
-import com.carbonat.database.DatabaseImpl;
-import com.carbonat.databases.DatabasesImpl;
-import com.carbonat.table.TableImpl;
-import com.carbonat.user.UserImpl;
+import com.carbonat.database.Database;
+import com.carbonat.databases.Databases;
+import com.carbonat.dbms.DBMSImpl;
+import com.carbonat.table.Table;
+import com.carbonat.user.User;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -150,7 +151,7 @@ public class Main {
         }
     }
 
-    public static TableImpl parseJsonTableStructure(String tableName, String databaseName, String jsonStructure) {
+    public static Table parseJsonTableStructure(String tableName, String databaseName, String jsonStructure) {
         JSONParser parser = new JSONParser();
         JSONArray structure;
         try {
@@ -178,7 +179,7 @@ public class Main {
             }
         }
 
-        return new TableImpl(tableName, databaseName, dataTypes, columnsNames);
+        return new Table(tableName, databaseName, dataTypes, columnsNames);
     }
 
     public static String arrayToJson(String[] array) {
@@ -205,13 +206,9 @@ public class Main {
         if (args.length > 0) {
             port = Integer.parseInt(args[0]);
         }
-
-        String address = "http://0.0.0.0:" + port + "/";
-        Endpoint.publish(address + "user", new UserImpl("", ""));
-        Endpoint.publish(address + "databases", new DatabasesImpl());
-        Endpoint.publish(address + "database", new DatabaseImpl(""));
-        Endpoint.publish(address + "table", new TableImpl("", ""));
-        Endpoint.publish(address + "file_content", new FileContentImpl());
+        String address2 = "http://localhost:" + port + "/";
+//        String address = "http://0.0.0.0:" + port + "/";
+        Endpoint.publish(address2 + "dbms", new DBMSImpl());
         System.out.println("Server is ready");
     }
 }

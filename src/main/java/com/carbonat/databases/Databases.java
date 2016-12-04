@@ -1,26 +1,37 @@
 package com.carbonat.databases;
 
+import com.carbonat.common.DBMSUnit;
+import com.carbonat.common.ErrorMsg;
 import com.carbonat.common.ExceptionType;
+import com.carbonat.common.Main;
+import org.json.simple.JSONArray;
 
-import javax.jws.WebMethod;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
 
-@WebService
-@SOAPBinding(style = SOAPBinding.Style.RPC)
-public interface Databases {
-    @WebMethod
-    String getDatabases();
+public class Databases extends DBMSUnit {
 
-    @WebMethod
-    ExceptionType getExceptionType();
+    private String[] databases;
 
-    @WebMethod
-    String getError();
+    private boolean readDatabases() {
+        String path = Main.getPath(Main.DB_FILE);
+        JSONArray array = (JSONArray) Main.readParseJson(path);
+        if (array == null) {
+            errorMsg = Main.getErrorMsg();
+            return false;
+        }
+        int size = array.size();
+        databases = new String[size];
+        for (int i = 0; i < size; ++i) {
+            databases[i] = (String) array.get(i);
+        }
+        return true;
+    }
 
-    @WebMethod
-    boolean isErrorExists();
-
-    @WebMethod
-    void setErrorMsgNull();
+    public String getDatabases() {
+        String result = "";
+        if (readDatabases()) {
+            result = Main.arrayToJson(databases);
+        }
+        return result;
+    }
 }
