@@ -14,7 +14,7 @@ import javax.jws.WebService;
 
 @WebService(endpointInterface = "com.carbonat.dbms.DBMS")
 public class DBMSImpl implements DBMS {
-    DBMSUnit dbmsUnit;
+    private DBMSUnit dbmsUnit;
 
     @Override
     public String getDatabases() {
