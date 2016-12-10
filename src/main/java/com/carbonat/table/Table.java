@@ -16,7 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -42,75 +41,12 @@ public class Table extends DBMSUnit {
         this.columnsNames = columnsNames;
     }
 
-    public Table(String name, String databaseName, DataType[] columnsDataTypes,
-                 String[] columnsNames, ArrayList<ArrayList<Object>> data) {
-        this.name = name;
-        this.databaseName = databaseName;
-        this.dataTypes = columnsDataTypes;
-        this.columnsNames = columnsNames;
-        this.data = new ArrayList<>();
-        for (ArrayList<Object> row : data) {
-            this.addRow(row);
-        }
-    }
-
-    public Table(Table table) {
-        this.name = table.name;
-        this.databaseName = table.databaseName;
-        if (table.dataTypes != null)
-            this.dataTypes = Arrays.copyOf(table.dataTypes, table.dataTypes.length);
-        if (table.columnsNames != null)
-            this.columnsNames = Arrays.copyOf(table.columnsNames, table.columnsNames.length);
-
-        int size = table.data.size();
-        this.data = new ArrayList<>(size);
-        for (int i = 0; i < size; ++i) {
-            this.data.add(new ArrayList<>(table.data.get(i)));
-        }
-    }
-
     // swap(list[i1], list[i2])
     private static void swap(ArrayList<ArrayList<Object>> list, int i1, int i2) {
         ArrayList<Object> row = list.get(i2);
         ArrayList<Object> tmp = list.get(i1);
         list.set(i1, row);
         list.set(i2, tmp);
-    }
-
-    private static void addDefaultValues(List<Object> list, DataType[] dataTypes, int i) {
-        for (int j = 0; j < dataTypes.length; ++j) {
-            if (j != i) {
-                DataType dataType = dataTypes[j];
-
-                if (dataType == DataType.INTEGER) {
-                    list.add(Main.DEFAULT_INT);
-                } else if (dataType == DataType.REAL) {
-                    list.add(Main.DEFAULT_REAL);
-                } else if (dataType == DataType.CHARACTER) {
-                    list.add(Main.DEFAULT_CHAR);
-                } else if (dataType == DataType.TEXT_FILE) {
-                    list.add(Main.DEFAULT_TEXT_FILE);
-                } else if (dataType == DataType.INTEGER_INVL) {
-                    list.add(Main.DEFAULT_INTEGER_INVL);
-                }
-            }
-        }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDatabaseName() {
-        return databaseName;
-    }
-
-    public void setDatabaseName(String databaseName) {
-        this.databaseName = databaseName;
     }
 
     public DataType[] getDataTypes() {
@@ -179,8 +115,6 @@ public class Table extends DBMSUnit {
             errorMsg = new ErrorMsg(ExceptionType.JsonParse, ex.getMessage());
             return false;
         }
-
-        ArrayList<Object> row;
 
         JSONArray jsonRow;
         int size = array.size();
@@ -507,25 +441,5 @@ public class Table extends DBMSUnit {
                 return false;
             return (vals1[1] - vals1[0]) <= (vals2[1] - vals2[0]);
         }
-    }
-
-    private boolean uniqueColumn(int columnN) {
-        HashSet<Object> map = new HashSet<>();
-        Object key;
-        for (int i = 0; i < data.size(); ++i) {
-            key = data.get(i).get(columnN);
-            if (!map.add(key))
-                return false;
-        }
-        return true;
-    }
-
-    public void setTableAndBufferNull() {
-        name = "";
-        databaseName = "";
-        columnsNames = null;
-        dataTypes = null;
-        data = null;
-        errorMsg = null;
     }
 }

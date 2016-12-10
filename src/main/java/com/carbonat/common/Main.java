@@ -30,21 +30,12 @@ public class Main {
     public final static String TABLESLIST_FILE = "tableslist.json";
     public final static String TABLE_STRUCTURE_FILE = "structure.json";
     public final static String DATA_FILE = "data.json";
-    public final static int DEFAULT_INT = 0;
-    public final static double DEFAULT_REAL = 0.0;
-    public final static String DEFAULT_CHAR = "";
-    public final static String DEFAULT_TEXT_FILE = "";
-    public final static String DEFAULT_INTEGER_INVL = "0..0";
     private static final boolean IS_WINDOWS = System.getProperty("os.name").contains("indow");
 
     private static ErrorMsg errorMsg;
 
     public static ErrorMsg getErrorMsg() {
         return errorMsg;
-    }
-
-    public static void setErrorMsgNull() {
-        errorMsg = null;
     }
 
     public static String getPath(String filename) {

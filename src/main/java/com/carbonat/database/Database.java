@@ -19,14 +19,6 @@ public class Database extends DBMSUnit {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getTables() {
         String result = "";
         if (loadTablesList()) {
@@ -36,7 +28,7 @@ public class Database extends DBMSUnit {
         return result;
     }
 
-    public int uniqueName() {
+    private int uniqueName() {
         String path = Main.getPath(Main.DB_FILE);
         JSONArray dbnames = (JSONArray) Main.readParseJson(path);
         if (dbnames == null) {
@@ -125,8 +117,6 @@ public class Database extends DBMSUnit {
         tables = new String[size];
         for (int i = 0; i < size; ++i) {
             tables[i] = (String) tablesList.get(i);
-//                if (!tables.get(i).readData())
-//                    return false;
         }
         return true;
     }

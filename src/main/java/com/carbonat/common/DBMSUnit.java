@@ -5,10 +5,6 @@ public abstract class DBMSUnit {
 
     public DBMSUnit() {};
 
-    public DBMSUnit(ExceptionType exceptionType, String msg) {
-        this.errorMsg = new ErrorMsg(exceptionType, msg);
-    }
-
     public String getErrorMsg() {
         return errorMsg.getMsg();
     }
